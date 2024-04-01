@@ -4,6 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".minigame.Minigame">
+
+    <ImageView
+        android:id="@+id/player_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        tools:layout_editor_absoluteY="394dp"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/scrap1"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/arrow_down_float"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/but_move1"
+        android:layout_width="49dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="12dp"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@+id/text_score"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/but_move2"
+        android:layout_width="49dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="12dp"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@+id/text_score"
+        app:layout_constraintStart_toEndOf="@+id/but_move1" />
+
+    <Button
+        android:id="@+id/but_move3"
+        android:layout_width="49dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="12dp"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@+id/text_score"
+        app:layout_constraintStart_toEndOf="@+id/but_move2" />
+
+    <Button
+        android:id="@+id/but_move4"
+        android:layout_width="49dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="12dp"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@+id/text_score"
+        app:layout_constraintStart_toEndOf="@+id/but_move3" />
+
+    <Button
+        android:id="@+id/but_move5"
+        android:layout_width="49dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="12dp"
+        android:text="1"
+        app:layout_constraintBottom_toTopOf="@+id/text_score"
+        app:layout_constraintStart_toEndOf="@+id/but_move4" />
+
+    <TextView
+        android:id="@+id/text_score"
+        android:layout_width="332dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="36dp"
+        android:text="Score:"
+        android:textColor="#E6E2E2"
+        android:textColorHighlight="#887777"
+        android:textColorHint="#EAE6E6"
+        android:textColorLink="#EADADA"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_health"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/text_health"
+        android:layout_width="332dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="16dp"
+        android:text="Health:"
+        android:textColor="#E6E2E2"
+        android:textColorHighlight="#887777"
+        android:textColorHint="#EAE6E6"
+        android:textColorLink="#EADADA"
+        android:textSize="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
