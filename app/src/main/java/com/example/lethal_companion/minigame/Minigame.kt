@@ -31,21 +31,40 @@ class Minigame : AppCompatActivity() {
     lateinit var playerImg: ImageView
     var player_pos = 0
     var actualscore = 0
+    lateinit var table_menu_ele: Array<View>
+    lateinit var table_game_ele: Array<View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_minigame)
 
         //Pobranie referencji do elementów widoku
+        //Menu
+        val button_start = findViewById<Button>(R.id.but_start)
+        val button_top = findViewById<Button>(R.id.but_top)
+        val text_latest_score = findViewById<TextView>(R.id.text_latests_score)
+        val text_best_score = findViewById<TextView>(R.id.text_best_score)
+        val score_latest = findViewById<TextView>(R.id.score_latest)
+        val score_best = findViewById<TextView>(R.id.score_best)
+
+        table_menu_ele = arrayOf(button_start,button_top,text_latest_score,text_best_score,score_best,score_latest)
+        //Gra
         playerImg = findViewById(R.id.player_img)
         val button1 = findViewById<Button>(R.id.but_move1)
         val button2 = findViewById<Button>(R.id.but_move2)
         val button3 = findViewById<Button>(R.id.but_move3)
         val button4 = findViewById<Button>(R.id.but_move4)
         val button5 = findViewById<Button>(R.id.but_move5)
+        val scoreBox = findViewById<TextView>(R.id.text_score)
+        val healthBox = findViewById<TextView>(R.id.text_health)
 
+        table_game_ele = arrayOf(button1,button2,button3,button4,button5,scoreBox,healthBox,playerImg)
+
+        //Wybór animacji spadania elementów
+        animation = AnimationUtils.loadAnimation(this, R.anim.drop_anim)
 
         val fixPosX = 22
+
 
         //Działania przycisków
         button1.setOnClickListener {
@@ -69,6 +88,11 @@ class Minigame : AppCompatActivity() {
         }
 
         button5.setOnClickListener {
+            playerImg.x = button5.x - button5.width/2 - fixPosX
+            player_pos = 4
+        }
+
+        button_start.setOnClickListener {
             //Tablica przechowująca możliwe miejsca pojawienia się scrapów
             scrap_respawn_table = arrayOf(button1.x + button1.width/2 - fixPosX,
                 button2.x + button2.width/2 - fixPosX,
@@ -81,50 +105,47 @@ class Minigame : AppCompatActivity() {
             playerImg.x = button3.x - button3.width/2 - fixPosX
             playerImg.y = button1.y - 200
 
-            //Ustawienie widocznosci gracza
-            playerImg.visibility = View.VISIBLE
-            gameStart()
+            //Przygotowanie wartości i elementów gry
+            hp = 3
+            timer = 1500
+            actualscore = 0
+            setScore(0)
+            setHealth(hp)
+            showMenuElements(false)
+            showGameElements(true)
+            gameContinue()
         }
 
 
     }
-    //Funkcja ustawiająca podstawowe parametry gry i ją rozpoczynająca
-    fun gameStart() {
-        hp = 3
-        timer = 1500
-        setScore(0)
-        setHealth(hp)
-        animation = AnimationUtils.loadAnimation(this, R.anim.drop_anim)
-        gameContinue()
-
-    }
     //Pętla gry
     fun gameContinue() {
-        //Stworzenie nowego elementu który ma zacząc spadać
-        var newScrap = createScrap(scrap_table[0])
-        var a: Int = rand.nextInt(5)
-        newScrap.x = scrap_respawn_table[a]
-        var newScrapPosition = a
-
 
         handler.postDelayed({
+            //Stworzenie nowego elementu który ma zacząc spadać
+            var newScrap = createScrap(scrap_table[0])
+            var a: Int = rand.nextInt(5)
+            newScrap.x = scrap_respawn_table[a]
+            var newScrapPosition = a
+            scrapQueue.offer(newScrap)
             //Przygotowanie animacji
             animation = AnimationUtils.loadAnimation(this, R.anim.drop_anim)
             animation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
                     //sprawdzenie kolizji 1
                     var findcollision = false
+
                     handler.postDelayed({
                         if (player_pos == newScrapPosition){
                             findcollision = true
                         }
-                    },2900)
+                    },2200)
                     //sprawdzenie kolizji 2
                     handler.postDelayed({
                         if (player_pos == newScrapPosition){
                             findcollision = true
                         }
-                    },2950)
+                    },2250)
                     //sprawdzenie kolizji 3
                     handler.postDelayed({
                         if (player_pos == newScrapPosition){
@@ -132,26 +153,54 @@ class Minigame : AppCompatActivity() {
                         }
                         //Aktualizacja score oraz hp
                         if (findcollision){
+                            newScrap.clearAnimation()
                             actualscore+=50
                             setScore(actualscore)
                             setHealth(hp)
+                            if (timer > 4000){
+                                timer -= 200
+                            }else  if (timer > 3000){
+                                timer -= 150
+                            }else if (timer > 2000){
+                                timer -= 120
+                            }else if (timer > 1500){
+                                timer -= 80
+                            }else if (timer > 1000){
+                                timer -= 50
+                            }else if (timer > 500){
+                                timer -= 20
+                            }
                         }else{
                             hp -=1
                             setHealth(hp)
                         }
-                    },2990)
+                        scrapQueue.poll()
+                    },2290)
 
 
                 }
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    Log.d("ani1", "onAnimationEnd: ok")
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
             newScrap.startAnimation(animation)
-            gameContinue()
+            //Sprawdzenie końca gry
+            if(hp <= 0){
+                endAllAnimation()
+                setLatestScore(actualscore)
+                val actualbestscore = findViewById<TextView>(R.id.score_best).text
+                if(actualscore > actualbestscore.toString().toInt()){
+                    setBestScore(actualscore)
+                }
+                showMenuElements(true)
+                showGameElements(false)
+            }
+            else{
+                gameContinue()
+            }
+
         }, timer.toLong())
     }
 
@@ -194,6 +243,45 @@ class Minigame : AppCompatActivity() {
             healthnumber += "❤️ "
         }
         healthBox.setText("Score: " + healthnumber)
+    }
+    fun setLatestScore(score: Int){
+        val scorelatest = findViewById<TextView>(R.id.score_latest)
+        scorelatest.setText(score.toString())
+    }
+    fun setBestScore(score: Int){
+        val scorebest = findViewById<TextView>(R.id.score_best)
+        scorebest.setText(score.toString())
+    }
+
+    fun showGameElements(show: Boolean){
+        if(show){
+            for (ele in table_game_ele){
+                ele.visibility = View.VISIBLE
+            }
+        }else{
+            for (ele in table_game_ele){
+                ele.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    fun showMenuElements(show: Boolean){
+        if(show){
+            for (ele in table_menu_ele){
+                ele.visibility = View.VISIBLE
+            }
+        }else{
+            for (ele in table_menu_ele){
+                ele.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    fun endAllAnimation(){
+        for (ele in scrapQueue){
+            ele.clearAnimation()
+        }
+        scrapQueue.clear()
     }
 
 }
