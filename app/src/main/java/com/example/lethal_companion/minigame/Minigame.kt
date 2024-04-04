@@ -2,11 +2,13 @@ package com.example.lethal_companion.minigame
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,7 +18,7 @@ import com.example.lethal_companion.R
 import java.util.LinkedList
 import java.util.Queue
 import java.util.Random
-import kotlin.concurrent.thread
+
 
 class Minigame : AppCompatActivity() {
     //Zmienne globalne używane w kodzie
@@ -33,10 +35,22 @@ class Minigame : AppCompatActivity() {
     var actualscore = 0
     lateinit var table_menu_ele: Array<View>
     lateinit var table_game_ele: Array<View>
+    var screenWidth:Int = 0
+    var screenHeight:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_minigame)
+
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        screenWidth = displayMetrics.widthPixels
+        screenHeight = displayMetrics.heightPixels
+
+        Log.d("height", screenHeight.toString())
+        Log.d("width", screenWidth.toString())
+
 
         //Pobranie referencji do elementów widoku
         //Menu
@@ -60,50 +74,70 @@ class Minigame : AppCompatActivity() {
 
         table_game_ele = arrayOf(button1,button2,button3,button4,button5,scoreBox,healthBox,playerImg)
 
-        //Wybór animacji spadania elementów
-        animation = AnimationUtils.loadAnimation(this, R.anim.drop_anim)
+        //Przygotowanie scrapów
 
-        val fixPosX = 22
+
+
+
 
 
         //Działania przycisków
         button1.setOnClickListener {
-            playerImg.x = button1.x - button1.width/2 - fixPosX
+            playerImg.x = (screenWidth.toFloat()/6) - playerImg.width/2
             player_pos = 0
         }
 
         button2.setOnClickListener {
-            playerImg.x = button2.x - button2.width/2 - fixPosX
+            playerImg.x = (screenWidth.toFloat()/6 * 2) - playerImg.width/2
             player_pos = 1
         }
 
         button3.setOnClickListener {
-            playerImg.x = button3.x - button3.width/2 - fixPosX
+            playerImg.x = (screenWidth.toFloat()/6 * 3) - playerImg.width/2
             player_pos = 2
         }
 
         button4.setOnClickListener {
-            playerImg.x = button4.x - button4.width/2 - fixPosX
+            playerImg.x = (screenWidth.toFloat()/6 * 4) - playerImg.width/2
             player_pos = 3
         }
 
         button5.setOnClickListener {
-            playerImg.x = button5.x - button5.width/2 - fixPosX
+            playerImg.x = (screenWidth.toFloat()/6 * 5) - playerImg.width/2
             player_pos = 4
         }
 
         button_start.setOnClickListener {
+            button1.x = screenWidth.toFloat()/6 - (button1.width/2)
+            button2.x = (screenWidth.toFloat()/6 * 2) - (button1.width/2)
+            button3.x = (screenWidth.toFloat()/6 * 3) - (button1.width/2)
+            button4.x = (screenWidth.toFloat()/6 * 4) - (button1.width/2)
+            button5.x = (screenWidth.toFloat()/6 * 5) - (button1.width/2)
+
+            button1.y = screenHeight.toFloat() * 0.8F
+            button2.y = screenHeight.toFloat() * 0.8F
+            button3.y = screenHeight.toFloat() * 0.8F
+            button4.y = screenHeight.toFloat() * 0.8F
+            button5.y = screenHeight.toFloat() * 0.8F
+
+
+            //Wybór animacji spadania elementów
+//            animation = AnimationUtils.loadAnimation(this, R.anim.drop_anim)
+
             //Tablica przechowująca możliwe miejsca pojawienia się scrapów
-            scrap_respawn_table = arrayOf(button1.x + button1.width/2 - fixPosX,
-                button2.x + button2.width/2 - fixPosX,
-                button3.x + button3.width/2 - fixPosX,
-                button4.x + button4.width/2 - fixPosX,
-                button5.x + button5.width/2 - fixPosX)
+            val fixScrapPosX = 22
+            scrap_respawn_table = arrayOf(
+                screenWidth.toFloat()/6 - fixScrapPosX,
+                (screenWidth.toFloat()/6 * 2) - fixScrapPosX,
+                (screenWidth.toFloat()/6 * 3) - fixScrapPosX,
+                (screenWidth.toFloat()/6 * 4) - fixScrapPosX,
+                (screenWidth.toFloat()/6 * 5) - fixScrapPosX
+            )
             player_pos = 2
 
             //Pozycja gracza po starcie gry
-            playerImg.x = button3.x - button3.width/2 - fixPosX
-            playerImg.y = button1.y - 200
+            playerImg.x = (screenWidth.toFloat()/6 * 3) - (playerImg.width/2)
+            playerImg.y = button1.y - 400
 
             //Przygotowanie wartości i elementów gry
             hp = 3
@@ -129,9 +163,23 @@ class Minigame : AppCompatActivity() {
             var newScrapPosition = a
             scrapQueue.offer(newScrap)
             //Przygotowanie animacji
-            animation = AnimationUtils.loadAnimation(this, R.anim.drop_anim)
+            animation = TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.RELATIVE_TO_SELF, 0f,
+                Animation.ABSOLUTE, screenHeight * 0.75f // Zmieniona wartość dla toYDelta
+            )
+
+            animation.duration = 3000
+
             animation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
+
+                    if(hp <= 0) {
+                        endAllAnimation()
+                    }
+
+                    Log.d("x", newScrap.x.toString())
                     //sprawdzenie kolizji 1
                     var findcollision = false
 
@@ -172,7 +220,6 @@ class Minigame : AppCompatActivity() {
                             }
                         }else{
                             hp -=1
-                            setHealth(hp)
                         }
                         scrapQueue.poll()
                     },2290)
@@ -181,6 +228,12 @@ class Minigame : AppCompatActivity() {
                 }
 
                 override fun onAnimationEnd(animation: Animation?) {
+                    setHealth(hp)
+                    if(hp <= 0) {
+                        endAllAnimation()
+                        showMenuElements(true)
+                        showGameElements(false)
+                    }
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
@@ -188,14 +241,11 @@ class Minigame : AppCompatActivity() {
             newScrap.startAnimation(animation)
             //Sprawdzenie końca gry
             if(hp <= 0){
-                endAllAnimation()
                 setLatestScore(actualscore)
                 val actualbestscore = findViewById<TextView>(R.id.score_best).text
                 if(actualscore > actualbestscore.toString().toInt()){
                     setBestScore(actualscore)
                 }
-                showMenuElements(true)
-                showGameElements(false)
             }
             else{
                 gameContinue()
