@@ -114,15 +114,18 @@ class Minigame : AppCompatActivity() {
             button4.x = (screenWidth.toFloat()/6 * 4) - (button1.width/2)
             button5.x = (screenWidth.toFloat()/6 * 5) - (button1.width/2)
 
-            button1.y = screenHeight.toFloat() * 0.8F
-            button2.y = screenHeight.toFloat() * 0.8F
-            button3.y = screenHeight.toFloat() * 0.8F
-            button4.y = screenHeight.toFloat() * 0.8F
-            button5.y = screenHeight.toFloat() * 0.8F
+            button1.height = screenHeight
+            button2.height = screenHeight
+            button3.height = screenHeight
+            button4.height = screenHeight
+            button5.height = screenHeight
 
 
-            //Wybór animacji spadania elementów
-//            animation = AnimationUtils.loadAnimation(this, R.anim.drop_anim)
+            button1.alpha = 0.0f
+            button2.alpha = 0.0f
+            button3.alpha = 0.0f
+            button4.alpha = 0.0f
+            button5.alpha = 0.0f
 
             //Tablica przechowująca możliwe miejsca pojawienia się scrapów
             val fixScrapPosX = 22
@@ -137,7 +140,10 @@ class Minigame : AppCompatActivity() {
 
             //Pozycja gracza po starcie gry
             playerImg.x = (screenWidth.toFloat()/6 * 3) - (playerImg.width/2)
-            playerImg.y = button1.y - 400
+            playerImg.y = screenHeight * 0.63f
+
+            scoreBox.y = screenHeight * 0.85f
+            healthBox.y = screenHeight * 0.90f
 
             //Przygotowanie wartości i elementów gry
             hp = 3
