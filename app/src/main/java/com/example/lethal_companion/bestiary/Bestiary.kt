@@ -1,14 +1,12 @@
 package com.example.lethal_companion.bestiary
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lethal_companion.MainActivity
-import com.example.lethal_companion.MyAdapter
+import com.example.lethal_companion.MonsterAdapter
 import com.example.lethal_companion.R
 import com.example.lethal_companion.ResponseModel
 import com.example.lethal_companion.RetrofitAPI
@@ -48,7 +46,7 @@ class Bestiary : AppCompatActivity() {
                 if (response.isSuccessful) {
                     data = response.body()!!
 
-                    val adapter = MyAdapter(data)
+                    val adapter = MonsterAdapter(data)
 
                     recyclerView.adapter = adapter
                     recyclerView.layoutManager = LinearLayoutManager(this@Bestiary)

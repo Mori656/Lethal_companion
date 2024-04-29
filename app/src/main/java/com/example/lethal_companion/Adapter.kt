@@ -10,7 +10,7 @@ class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val textView: TextView = itemView.findViewById(R.id.itemName)
 }
 
-class MyAdapter(private val data: ResponseModel) :
+class MonsterAdapter(private val data: ResponseModel) :
         RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -18,12 +18,64 @@ class MyAdapter(private val data: ResponseModel) :
         return MyViewHolder(view)
     }
 
+    override fun getItemCount(): Int {
+        return data.Monsters.size
+    }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data
         holder.textView.text = item.Monsters[position].name
     }
+        }
+
+class LogsAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.rv_item, parent, false)
+        return MyViewHolder(view)
+    }
 
     override fun getItemCount(): Int {
-        return data.Monsters.size
+        return data.Logs.size
     }
-        }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val item = data
+        holder.textView.text = item.Logs[position].name
+    }
+
+}
+
+class StoreAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.rv_item, parent, false)
+        return MyViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return data.Store.size
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val item = data
+        holder.textView.text = item.Store[position].name
+    }
+}
+
+class TipsAdapter(private val data : ResponseModel) : RecyclerView.Adapter<MyViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.rv_item, parent, false)
+        return MyViewHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return data.Tips.size
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val item = data
+        holder.textView.text = item.Tips[position].name
+    }
+
+}

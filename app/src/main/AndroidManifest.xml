@@ -21,7 +21,10 @@
             android:name=".bestiary.Bestiary"
             android:exported="false" />
         <activity
-            android:name=".items.Items"
+            android:name=".store.Store"
+            android:exported="false" />
+        <activity
+            android:name=".logs.Logs"
             android:exported="false" />
         <activity
             android:name=".minigame.Minigame"
