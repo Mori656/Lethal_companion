@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,38 +14,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="back"
-        android:onClick="back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:onClick="back" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
 
     <TextView
         android:id="@+id/name_disp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="30sp" />
 
     <ImageView
         android:id="@+id/image_disp"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_disp"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
         android:id="@+id/price_disp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_disp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/desc"
@@ -52,11 +54,7 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="Description"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price_disp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/dangerLvl_disp"
@@ -64,43 +62,22 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text=""
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/desc" />
+        android:textSize="22sp" />
 
-    <TextView
+            <TextView
         android:id="@+id/sName_disp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text=""
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dangerLvl_disp" />
+        android:textSize="22sp" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical">
-
-        <TextView
+            <TextView
             android:id="@+id/desc_disp"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sName_disp" />
+            android:textSize="18sp" />
 
+        </LinearLayout>
     </ScrollView>
-
-
-
-
-
 </LinearLayout>

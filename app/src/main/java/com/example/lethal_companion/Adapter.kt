@@ -43,8 +43,6 @@ class MonsterAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyV
     }
 }
 
-
-
 class LogsAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyViewHolder>() {
 
     private var mListener: OnItemClickListener? = null
