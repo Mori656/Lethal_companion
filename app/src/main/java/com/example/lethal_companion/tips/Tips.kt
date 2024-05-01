@@ -1,5 +1,6 @@
 package com.example.lethal_companion.tips
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +11,9 @@ import com.example.lethal_companion.MonsterAdapter
 import com.example.lethal_companion.R
 import com.example.lethal_companion.ResponseModel
 import com.example.lethal_companion.RetrofitAPI
+import com.example.lethal_companion.StoreAdapter
 import com.example.lethal_companion.TipsAdapter
+import com.example.lethal_companion.rv_item_disp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +50,16 @@ class Tips : AppCompatActivity() {
                     data = response.body()!!
 
                     val adapter = TipsAdapter(data)
+
+                    adapter.setOnItemClickListener(object : TipsAdapter.OnItemClickListener {
+                        override fun onItemClick(position: Int) {
+                            val intent = Intent(this@Tips, rv_item_disp::class.java)
+                            intent.putExtra("type","Tips")
+                            intent.putExtra("name", data.Tips[position].name)
+                            intent.putExtra("desc", data.Tips[position].desc)
+                            startActivity(intent)
+                        }
+                    })
 
                     recyclerView.adapter = adapter
                     recyclerView.layoutManager = LinearLayoutManager(this@Tips)

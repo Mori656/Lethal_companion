@@ -1,16 +1,19 @@
 package com.example.lethal_companion.store
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lethal_companion.LogsAdapter
 import com.example.lethal_companion.MonsterAdapter
 import com.example.lethal_companion.R
 import com.example.lethal_companion.ResponseModel
 import com.example.lethal_companion.RetrofitAPI
 import com.example.lethal_companion.StoreAdapter
+import com.example.lethal_companion.rv_item_disp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,6 +51,18 @@ class Store : AppCompatActivity() {
                     data = response.body()!!
 
                     val adapter = StoreAdapter(data)
+
+                    adapter.setOnItemClickListener(object : StoreAdapter.OnItemClickListener {
+                        override fun onItemClick(position: Int) {
+                            val intent = Intent(this@Store, rv_item_disp::class.java)
+                            intent.putExtra("type","Store")
+                            intent.putExtra("name", data.Store[position].name)
+                            intent.putExtra("desc", data.Store[position].desc)
+                            intent.putExtra("price",data.Store[position].price)
+                            intent.putExtra("img", data.Store[position].img)
+                            startActivity(intent)
+                        }
+                    })
 
                     recyclerView.adapter = adapter
                     recyclerView.layoutManager = LinearLayoutManager(this@Store)
