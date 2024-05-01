@@ -1,5 +1,6 @@
 package com.example.lethal_companion.logs
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,9 +8,11 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lethal_companion.LogsAdapter
+import com.example.lethal_companion.MonsterAdapter
 import com.example.lethal_companion.R
 import com.example.lethal_companion.ResponseModel
 import com.example.lethal_companion.RetrofitAPI
+import com.example.lethal_companion.rv_item_disp
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,6 +50,17 @@ class Logs : AppCompatActivity() {
                     data = response.body()!!
 
                     val adapter = LogsAdapter(data)
+
+                    adapter.setOnItemClickListener(object : LogsAdapter.OnItemClickListener {
+                        override fun onItemClick(position: Int) {
+                            val intent = Intent(this@Logs, rv_item_disp::class.java)
+                            intent.putExtra("type","Logs")
+                            intent.putExtra("name", data.Logs[position].name)
+                            intent.putExtra("desc", data.Logs[position].desc)
+                            intent.putExtra("img", data.Logs[position].img)
+                            startActivity(intent)
+                        }
+                    })
 
                     recyclerView.adapter = adapter
                     recyclerView.layoutManager = LinearLayoutManager(this@Logs)
