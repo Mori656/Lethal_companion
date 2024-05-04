@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.lethal_companion.MonsterAdapter
 import com.example.lethal_companion.R
 import com.example.lethal_companion.ResponseModel
@@ -26,9 +28,9 @@ class Tips : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tips)
-
+        val imageView: ImageView = findViewById(R.id.foreground)
+        Glide.with(this).asGif().load("android.resource://${packageName}/drawable/noise").into(imageView)
         recyclerView = findViewById(R.id.recyclerView)
-
         fetchDataFromApi()
     }
     fun back(view: View) {

@@ -74,7 +74,7 @@
         app:layout_constraintVertical_bias="0.974">
 
         <View
-            android:id="@+id/side5"
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@color/orange" />
@@ -116,53 +116,64 @@
 
     <Button
         android:id="@+id/but_minigame"
-        android:layout_width="144dp"
-        android:layout_height="141dp"
-        android:layout_marginStart="132dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginTop="40dp"
         android:text="Minigame"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/but_logs" />
-
-    <Button
-        android:id="@+id/but_tips"
-        android:layout_width="144dp"
-        android:layout_height="141dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
-        android:text="Tips"
-        app:layout_constraintStart_toEndOf="@+id/but_logs"
-        app:layout_constraintTop_toBottomOf="@+id/but_items" />
-
-    <Button
-        android:id="@+id/but_items"
-        android:layout_width="144dp"
-        android:layout_height="141dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="172dp"
-        android:text="Items"
-        app:layout_constraintStart_toEndOf="@+id/but_bestiary"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
     <Button
         android:id="@+id/but_bestiary"
-        android:layout_width="144dp"
-        android:layout_height="141dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="172dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:text="Bestiary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.300" />
+
+    <Button
+        android:id="@+id/but_items"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:text="Items"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.300" />
 
     <Button
         android:id="@+id/but_logs"
-        android:layout_width="144dp"
-        android:layout_height="141dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:text="Logs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.177"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/but_bestiary" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55" />
+
+    <Button
+        android:id="@+id/but_tips"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:text="Tips"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.808"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55" />
 
     <TextView
         android:id="@+id/textView7"
@@ -171,10 +182,10 @@
         android:text="Lethal Companion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.089" />
+        app:layout_constraintVertical_bias="0.100" />
 
     <ImageView
         android:id="@+id/foreground"
@@ -185,7 +196,9 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

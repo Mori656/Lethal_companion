@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //Main Theme
     <style name="Theme.Main_Menu" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:buttonStyle">@style/Button</item>>
-        <item name="android:textViewStyle">@style/Text</item>
+        <item name="android:buttonStyle">@style/Button_Main</item>>
+        <item name="android:textViewStyle">@style/Text_Main</item>
         <item name="android:windowBackground">@color/black</item>
     </style>
-    <style name="Button" parent="Widget.AppCompat.Button">
+
+
+    <style name="Button_Main" parent="Widget.AppCompat.Button">
+        <item name="android:soundEffectsEnabled">false</item>
         <item name="android:background">@drawable/button_border_main</item>
         <item name="android:fontFamily">@font/perfect_dos_vga_437</item>
     </style>
-    <style name="Text" parent="Widget.AppCompat.TextView">
+    <style name="Text_Main" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/orange</item>
         <item name="android:background">@drawable/button_border_main</item>
         <item name="android:fontFamily">@font/perfect_dos_vga_437</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">32dp</item>
+    </style>
+    //Select theme
+    <style name="Theme.Select" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textViewStyle">@style/Text_Select</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:buttonStyle">@style/Button_Select</item>>
+    </style>
+    <style name="Button_Select" parent="Widget.AppCompat.Button">
+        <item name="android:fontFamily">@font/perfect_dos_vga_437</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:background">@drawable/button_select</item>
+        <item name="android:gravity">top</item>
+        <item name="android:textSize">48dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:soundEffectsEnabled">false</item>
+    </style>
+    <style name="Text_Select" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/perfect_dos_vga_437</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">32dp</item>
+    </style>
+    <style name="Card" parent="Widget.MaterialComponents.CardView">
     </style>
 </resources>

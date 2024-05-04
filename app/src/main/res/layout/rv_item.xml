@@ -2,15 +2,21 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.Select"
     android:layout_width="match_parent"
+    app:cardBackgroundColor="@color/transparent"
+    android:soundEffectsEnabled="false"
     android:layout_height="wrap_content">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+
             android:id="@+id/itemName"
+            android:color="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="30dp"
