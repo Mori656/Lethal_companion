@@ -3,7 +3,10 @@ package com.example.lethal_companion
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.webkit.WebView
 import android.widget.Button
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.example.lethal_companion.bestiary.Bestiary
 import com.example.lethal_companion.items.Items
 import com.example.lethal_companion.logs.Logs
@@ -25,6 +28,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
+        val imageView: ImageView = findViewById(R.id.foreground)
+        Glide.with(this).asGif().load("android.resource://${packageName}/drawable/noise").into(imageView)
     }
 }
