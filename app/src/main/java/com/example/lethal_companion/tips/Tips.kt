@@ -57,8 +57,8 @@ class Tips : AppCompatActivity() {
                         override fun onItemClick(position: Int) {
                             val intent = Intent(this@Tips, rv_item_disp::class.java)
                             intent.putExtra("type","Tips")
-                            intent.putExtra("name", data.Tips[position].name)
-                            intent.putExtra("desc", data.Tips[position].desc)
+                            intent.putExtra("name", data.record.Tips[position].name)
+                            intent.putExtra("desc", data.record.Tips[position].desc)
                             startActivity(intent)
                         }
                     })
