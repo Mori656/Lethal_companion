@@ -11,6 +11,11 @@ class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val textView: TextView = itemView.findViewById(R.id.itemName)
 }
 
+class MyViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val textView: TextView = itemView.findViewById(R.id.itemName)
+    val score: TextView = itemView.findViewById(R.id.score)
+}
+
 
 class MonsterAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyViewHolder>() {
 
@@ -30,12 +35,12 @@ class MonsterAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyV
     }
 
     override fun getItemCount(): Int {
-        return data.Monsters.size
+        return data.record.Monsters.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data
-        holder.textView.text = item.Monsters[position].name
+        holder.textView.text = item.record.Monsters[position].name
 
         holder.itemView.setOnClickListener {
             mListener?.onItemClick(position)
@@ -61,12 +66,12 @@ class LogsAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyView
     }
 
     override fun getItemCount(): Int {
-        return data.Logs.size
+        return data.record.Logs.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data
-        holder.textView.text = item.Logs[position].name
+        holder.textView.text = item.record.Logs[position].name
 
         holder.itemView.setOnClickListener {
             mListener?.onItemClick(position)
@@ -93,12 +98,12 @@ class StoreAdapter(private val data: ResponseModel) : RecyclerView.Adapter<MyVie
     }
 
     override fun getItemCount(): Int {
-        return data.Store.size
+        return data.record.Store.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data
-        holder.textView.text = item.Store[position].name
+        holder.textView.text = item.record.Store[position].name
 
         holder.itemView.setOnClickListener {
             mListener?.onItemClick(position)
@@ -124,16 +129,35 @@ class TipsAdapter(private val data : ResponseModel) : RecyclerView.Adapter<MyVie
     }
 
     override fun getItemCount(): Int {
-        return data.Tips.size
+        return data.record.Tips.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data
-        holder.textView.text = item.Tips[position].name
+        holder.textView.text = item.record.Tips[position].name
 
         holder.itemView.setOnClickListener {
             mListener?.onItemClick(position)
         }
     }
 
+}
+class ScoreAdapter(private val data : ResponseModel) : RecyclerView.Adapter<MyViewHolder2>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder2 {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.rv_score, parent, false)
+        return MyViewHolder2(view)
+    }
+
+    override fun getItemCount(): Int {
+        return data.record.Game.size
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder2, position: Int) {
+        val item = data
+        holder.textView.text = item.record.Game[position].name
+        holder.score.text = item.record.Game[position].hiScore.toString()
+
+    }
 }

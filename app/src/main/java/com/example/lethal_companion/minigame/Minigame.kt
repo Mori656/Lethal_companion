@@ -1,5 +1,6 @@
 package com.example.lethal_companion.minigame
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -14,7 +15,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.lethal_companion.ElementGame
 import com.example.lethal_companion.R
+import com.example.lethal_companion.Record
+import com.example.lethal_companion.ResponseModel
+import com.example.lethal_companion.RetrofitAPI
+import com.example.lethal_companion.ScoreAdapter
+import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.sql.Types.NULL
 import java.util.LinkedList
 import java.util.Queue
 import java.util.Random
@@ -37,10 +52,23 @@ class Minigame : AppCompatActivity() {
     lateinit var table_game_ele: Array<View>
     var screenWidth:Int = 0
     var screenHeight:Int = 0
+    lateinit var data: ResponseModel
+    private lateinit var recyclerView: RecyclerView
+    var playerName = "gaben"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_minigame)
+
+        fetchDataFromApi()
+
+        val buttonClick = findViewById<Button>(R.id.but_top)
+        buttonClick.setOnClickListener {
+            val intent = Intent(this, Scoreboard::class.java)
+            startActivity(intent)
+        }
+
+
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -60,8 +88,11 @@ class Minigame : AppCompatActivity() {
         val text_best_score = findViewById<TextView>(R.id.text_best_score)
         val score_latest = findViewById<TextView>(R.id.score_latest)
         val score_best = findViewById<TextView>(R.id.score_best)
+        val button_back = findViewById<TextView>(R.id.but_back)
+        val text_nickname = findViewById<TextView>(R.id.text_nickname)
+        val input_nick = findViewById<TextInputEditText>(R.id.input_nickname)
 
-        table_menu_ele = arrayOf(button_start,button_top,text_latest_score,text_best_score,score_best,score_latest)
+        table_menu_ele = arrayOf(button_start,button_top,text_latest_score,text_best_score,score_best,score_latest,button_back,text_nickname,input_nick)
         //Gra
         playerImg = findViewById(R.id.player_img)
         val button1 = findViewById<Button>(R.id.but_move1)
@@ -151,6 +182,7 @@ class Minigame : AppCompatActivity() {
             actualscore = 0
             setScore(0)
             setHealth(hp)
+            playerName = input_nick.text.toString()
             showMenuElements(false)
             showGameElements(true)
             gameContinue()
@@ -298,11 +330,43 @@ class Minigame : AppCompatActivity() {
         for (i in 1 .. hp){
             healthnumber += "❤️ "
         }
-        healthBox.setText("Score: " + healthnumber)
+        healthBox.setText("HP: " + healthnumber)
     }
-    fun setLatestScore(score: Int){
+    fun setLatestScore(score: Int) {
+        fetchDataFromApi()
+        var datalist = data
         val scorelatest = findViewById<TextView>(R.id.score_latest)
         scorelatest.setText(score.toString())
+        var player = ElementGame(playerName, score)
+        for(i in 0 ..datalist.record.Game.size - 1){
+            Log.d("Datatable", datalist.record.Game[i].name )
+        }
+        var tmp: ElementGame = player
+        for(i in 0 .. datalist.record.Game.size - 1){
+            if(tmp != player){
+                datalist.record.Game[i] = tmp
+                tmp = datalist.record.Game[i]
+            }else{
+                if (datalist.record.Game[i].hiScore < score) {
+                    tmp = datalist.record.Game[i]
+                    datalist.record.Game[i] = player
+                }
+            }
+
+        }
+        datalist.record.Game.add(tmp)
+        for(i in 0 ..datalist.record.Game.size - 1){
+            Log.d("Datatable", datalist.record.Game[i].name )
+        }
+        while(datalist.record.Game.size > 100){
+            Log.d("za duzo w tabeli", "usun ")
+            datalist.record.Game.removeLast()
+        }
+        handler.postDelayed({
+            pushDataToApi(datalist)
+        },1000)
+
+
     }
     fun setBestScore(score: Int){
         val scorebest = findViewById<TextView>(R.id.score_best)
@@ -338,6 +402,62 @@ class Minigame : AppCompatActivity() {
             ele.clearAnimation()
         }
         scrapQueue.clear()
+    }
+    fun back(view: View) {
+        finish()
+    }
+
+    private fun fetchDataFromApi() {
+        Log.d("Fetch", "działa1: ")
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.jsonbin.io/v3/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(RetrofitAPI::class.java)
+
+        val call: Call<ResponseModel> = service.getData()
+
+        call.enqueue(object : Callback<ResponseModel> {
+            override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
+                if (response.isSuccessful) {
+                    data = response.body()!!
+                    Log.d("Fetch", "działa2: ")
+                } else {
+                    Log.e("MainActivity", "Błąd: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                Log.e("MainActivity", "Błąd: ${t.message}", t)
+            }
+        })
+    }
+
+    private fun pushDataToApi(d :ResponseModel) {
+        Log.d("Push", "działa1: ")
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.jsonbin.io/v3/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(RetrofitAPI::class.java)
+
+        val call: Call<Record> = service.updateGameData(d.record)
+
+        call.enqueue(object : Callback<Record> {
+            override fun onResponse(call: Call<Record>, response: Response<Record>) {
+                if (response.isSuccessful) {
+                    Log.d("Push", "działa2: ")
+                } else {
+                    Log.e("MainActivity", "Błąd odpowiedzi: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Record>, t: Throwable) {
+                Log.e("MainActivity", "Błąd połaczenia: ${t.message}", t)
+            }
+        })
     }
 
 }

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Main_Menu"
         tools:targetApi="31">
         <activity
+            android:name=".minigame.Scoreboard"
+            android:exported="false" />
+        <activity
             android:name=".rv_item_disp"
             android:exported="false" />
         <activity

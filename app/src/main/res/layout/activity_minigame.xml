@@ -7,6 +7,15 @@
     android:background="#000000"
     tools:context=".minigame.Minigame">
 
+    <Button
+        android:id="@+id/but_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="back"
+        android:text="back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/player_img"
         android:layout_width="wrap_content"
@@ -15,7 +24,8 @@
         app:srcCompat="@drawable/ic_launcher_foreground"
         tools:layout_editor_absoluteX="64dp"
         tools:layout_editor_absoluteY="16dp"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
         android:id="@+id/scrap1"
@@ -88,15 +98,17 @@
         android:id="@+id/text_score"
         android:layout_width="332dp"
         android:layout_height="38dp"
-        android:layout_marginStart="36dp"
         android:text="Score:"
+        android:textAlignment="textStart"
         android:textColor="#E6E2E2"
         android:textColorHighlight="#887777"
         android:textColorHint="#EAE6E6"
         android:textColorLink="#EADADA"
         android:textSize="32dp"
         android:visibility="invisible"
+        android:padding="10sp"
         app:layout_constraintBottom_toTopOf="@+id/text_health"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
@@ -116,6 +128,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/but_top" />
+
+    <TextView
+        android:id="@+id/text_nickname"
+        android:layout_width="197dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="24dp"
+        android:text="Your Nickname"
+        android:textAlignment="center"
+        android:textColor="#E6E2E2"
+        android:textColorHighlight="#887777"
+        android:textColorHint="#EAE6E6"
+        android:textColorLink="#EADADA"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/but_start" />
 
     <TextView
         android:id="@+id/text_best_score"
@@ -138,16 +166,18 @@
         android:id="@+id/text_health"
         android:layout_width="332dp"
         android:layout_height="38dp"
-        android:layout_marginStart="36dp"
         android:layout_marginBottom="16dp"
         android:text="Health:"
+        android:textAlignment="textStart"
         android:textColor="#E6E2E2"
         android:textColorHighlight="#887777"
         android:textColorHint="#EAE6E6"
         android:textColorLink="#EADADA"
         android:textSize="32dp"
         android:visibility="invisible"
+        android:padding="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
 
@@ -155,10 +185,10 @@
         android:id="@+id/but_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="148dp"
         android:text="Start Game"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -166,12 +196,12 @@
         android:id="@+id/but_top"
         android:layout_width="120dp"
         android:layout_height="52dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:text="Top 10"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/but_start" />
+        app:layout_constraintTop_toBottomOf="@+id/input_nickname" />
 
     <TextView
         android:id="@+id/score_latest"
@@ -196,5 +226,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_best_score" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/input_nickname"
+        android:layout_width="227dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:hint="Nickname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_nickname" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
