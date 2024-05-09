@@ -39,7 +39,7 @@ class Store : AppCompatActivity() {
     }
     private fun fetchDataFromApi() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://mikolajniewola.github.io/")
+            .baseUrl("https://api.jsonbin.io/v3/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
