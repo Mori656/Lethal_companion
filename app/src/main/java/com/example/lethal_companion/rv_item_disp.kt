@@ -42,7 +42,9 @@ class rv_item_disp : AppCompatActivity() {
         val sName = intent.getStringExtra("sName")
         val desc = intent.getStringExtra("desc")
         val img = intent.getStringExtra("img")
+        val resourceId = resources.getIdentifier(img, "drawable", packageName)
 
+        imgImageView.setImageResource(resourceId)
         nameTextView.text = name
         descTextView.text = desc
         dangerLvlTextView.text = dangerLvl
@@ -60,7 +62,9 @@ class rv_item_disp : AppCompatActivity() {
         val desc = intent.getStringExtra("desc")
         val price = intent.getIntExtra("price",0)
         val img = intent.getStringExtra("img")
+        val resourceId = resources.getIdentifier(img, "drawable", packageName)
 
+        imgImageView.setImageResource(resourceId)
         nameTextView.text = name
         descTextView.text = desc
         priceTextView.text = "Price: $price"
@@ -74,8 +78,10 @@ class rv_item_disp : AppCompatActivity() {
 
         val name = intent.getStringExtra("name")
         val desc = intent.getStringExtra("desc")
-        val img = intent.getStringExtra("img")
-
+//        val img = intent.getStringExtra("img")
+//        val resourceId = resources.getIdentifier(img, "drawable", packageName)
+//
+//        imgImageView.setImageResource(resourceId)
         nameTextView.text = name
         descTextView.text = desc
 

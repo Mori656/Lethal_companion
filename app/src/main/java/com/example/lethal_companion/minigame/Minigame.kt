@@ -9,28 +9,13 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.lethal_companion.ElementGame
 import com.example.lethal_companion.R
-import com.example.lethal_companion.Record
-import com.example.lethal_companion.ResponseModel
-import com.example.lethal_companion.RetrofitAPI
-import com.example.lethal_companion.ScoreAdapter
-import com.google.android.material.textfield.TextInputEditText
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.sql.Types.NULL
 import java.util.LinkedList
 import java.util.Queue
 import java.util.Random
@@ -40,7 +25,8 @@ class Minigame : AppCompatActivity() {
 
 
     //Zmienne globalne używane w kodzie
-    var scrap_table = arrayOf(R.id.scrap1)
+    var scrap_table = arrayOf(R.id.scrap_airhorn,R.id.scrap_apparatus,R.id.scrap_bigbolticon)
+    var monster_table = arrayOf(R.id.monster_bunkerspider,R.id.monster_coilhead,R.id.monster_ghostgirl)
     lateinit var scrap_respawn_table: Array<Float>
     var hp = 3
     lateinit var animation: Animation
@@ -167,7 +153,20 @@ class Minigame : AppCompatActivity() {
 
         handler.postDelayed({
             //Stworzenie nowego elementu który ma zacząc spadać
-            var newScrap = createScrap(scrap_table[0])
+            var randdrop: Int = rand.nextInt(100)
+            var randscrap: Int
+            var newScrap: ImageView
+            if (randdrop > 16){
+                randscrap = rand.nextInt(scrap_table.size)
+                newScrap = createScrap(scrap_table[randscrap])
+                newScrap.tag = "SCRAP"
+            }else{
+                randscrap = rand.nextInt(monster_table.size)
+                newScrap = createScrap(monster_table[randscrap])
+                newScrap.tag = "MONSTER"
+            }
+
+
             var a: Int = rand.nextInt(5)
             newScrap.x = scrap_respawn_table[a]
             var newScrapPosition = a
@@ -210,8 +209,15 @@ class Minigame : AppCompatActivity() {
                         }
                         //Aktualizacja score oraz hp
                         if (findcollision) {
+                            Log.d("newid", newScrap.id.toString())
+                            Log.d("newid", newScrap.id.toString())
+                            if (newScrap.tag == "MONSTER"){
+                                hp -= 1
+                            }else{
+                                actualscore += 50
+                            }
                             newScrap.clearAnimation()
-                            actualscore += 50
+
                             setScore(actualscore)
                             setHealth(hp)
                             if (timer > 4000) {
@@ -228,7 +234,9 @@ class Minigame : AppCompatActivity() {
                                 timer -= 20
                             }
                         } else {
-                            hp -= 1
+                            if (newScrap.tag == "SCRAP"){
+                                hp -= 1
+                            }
                         }
                         scrapQueue.poll()
                     }, 2290)
@@ -262,6 +270,7 @@ class Minigame : AppCompatActivity() {
         originalImageView.visibility = View.INVISIBLE;
         val newImageView = ImageView(this)
         // Kopiowanie właściwości z oryginalnego ImageView
+
         newImageView.setImageDrawable(originalImageView.drawable) // kopiowanie obrazka
         newImageView.layoutParams = originalImageView.layoutParams // kopiowanie parametrów layoutu
         newImageView.scaleType = originalImageView.scaleType // kopiowanie sposobu skalowania
