@@ -22,14 +22,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:srcCompat="@drawable/ic_launcher_foreground"
+        app:srcCompat="@drawable/hazardsuit"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="64dp"
         tools:layout_editor_absoluteY="16dp"
         tools:visibility="visible" />
 
     <ImageView
-        android:id="@+id/scrap1"
+        android:id="@+id/scrap_airhorn"
         android:layout_width="48dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -37,7 +37,67 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/arrow_down_float"
+        app:srcCompat="@drawable/airhorn"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/scrap_apparatus"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="460dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/apparatus"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/scrap_bigbolticon"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="460dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bigbolticon"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/monster_coilhead"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="460dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/coilhead"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/monster_bunkerspider"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="460dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/bunkerspider"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/monster_ghostgirl"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="460dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ghostgirl"
         tools:visibility="visible" />
 
     <Button
