@@ -2,7 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.Select"
     android:layout_width="match_parent"
+    app:cardBackgroundColor="@color/transparent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,14 +13,15 @@
 
         <TextView
             android:id="@+id/score"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_width="270dp"
+            android:layout_height="44dp"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/font_3270_regular"
             android:paddingStart="30dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="name"
-            android:textSize="25sp"
+            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/itemName"
@@ -26,14 +29,15 @@
 
         <TextView
             android:id="@+id/itemName"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_width="247dp"
+            android:layout_height="44dp"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/font_3270_regular"
             android:paddingStart="30dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="name"
-            android:textSize="25sp"
+            android:textSize="32sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
