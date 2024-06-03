@@ -39,7 +39,7 @@ class Bestiary : AppCompatActivity() {
     }
     private fun fetchDataFromApi() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://mikolajniewola.github.io/")
+            .baseUrl("https://api.jsonbin.io/v3/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -58,11 +58,11 @@ class Bestiary : AppCompatActivity() {
                         override fun onItemClick(position: Int) {
                             val intent = Intent(this@Bestiary, rv_item_disp::class.java)
                             intent.putExtra("type","Monsters")
-                            intent.putExtra("name", data.Monsters[position].name)
-                            intent.putExtra("dangerLvl", data.Monsters[position].dangerLevel)
-                            intent.putExtra("sName", data.Monsters[position].sName)
-                            intent.putExtra("desc", data.Monsters[position].desc)
-                            intent.putExtra("img", data.Monsters[position].img)
+                            intent.putExtra("name", data.record.Monsters[position].name)
+                            intent.putExtra("dangerLvl", data.record.Monsters[position].dangerLevel)
+                            intent.putExtra("sName", data.record.Monsters[position].sName)
+                            intent.putExtra("desc", data.record.Monsters[position].desc)
+                            intent.putExtra("img", data.record.Monsters[position].img)
                             startActivity(intent)
                         }
                     })
@@ -80,4 +80,5 @@ class Bestiary : AppCompatActivity() {
             }
         })
     }
+
 }

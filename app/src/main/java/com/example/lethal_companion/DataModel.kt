@@ -1,10 +1,14 @@
 package com.example.lethal_companion
 data class ResponseModel(
+    val record: Record
+)
+
+data class Record(
     val Monsters: List<ElementMonsters>,
     val Store: List<ElementStore>,
     val Logs: List<ElementLogs>,
     val Tips: List<ElementTips>,
-    val Game: List<ElementGame>
+    val Game: MutableList<ElementGame>
 )
 
 data class ElementMonsters(
@@ -38,6 +42,6 @@ data class ElementTips(
 )
 
 data class ElementGame(
-    val name: String,
-    val hiScore: Int
+    var name: String,
+    var hiScore: Int
 )

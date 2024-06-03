@@ -1,5 +1,7 @@
 package com.example.lethal_companion.minigame
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -14,13 +16,29 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.lethal_companion.ElementGame
 import com.example.lethal_companion.R
+import com.example.lethal_companion.Record
+import com.example.lethal_companion.ResponseModel
+import com.example.lethal_companion.RetrofitAPI
+import com.example.lethal_companion.ScoreAdapter
+import com.google.android.material.textfield.TextInputEditText
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.sql.Types.NULL
 import java.util.LinkedList
 import java.util.Queue
 import java.util.Random
 
 
 class Minigame : AppCompatActivity() {
+
+
     //Zmienne globalne używane w kodzie
     var scrap_table = arrayOf(R.id.scrap1)
     lateinit var scrap_respawn_table: Array<Float>
@@ -33,14 +51,16 @@ class Minigame : AppCompatActivity() {
     lateinit var playerImg: ImageView
     var player_pos = 0
     var actualscore = 0
-    lateinit var table_menu_ele: Array<View>
+    var screenWidth: Int = 0
+    var screenHeight: Int = 0
+    var playerName = "gaben"
     lateinit var table_game_ele: Array<View>
-    var screenWidth:Int = 0
-    var screenHeight:Int = 0
-
+    lateinit var table_menu_ele: Array<View>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_minigame)
+
+
 
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -48,20 +68,6 @@ class Minigame : AppCompatActivity() {
         screenWidth = displayMetrics.widthPixels
         screenHeight = displayMetrics.heightPixels
 
-        Log.d("height", screenHeight.toString())
-        Log.d("width", screenWidth.toString())
-
-
-        //Pobranie referencji do elementów widoku
-        //Menu
-        val button_start = findViewById<Button>(R.id.but_start)
-        val button_top = findViewById<Button>(R.id.but_top)
-        val text_latest_score = findViewById<TextView>(R.id.text_latests_score)
-        val text_best_score = findViewById<TextView>(R.id.text_best_score)
-        val score_latest = findViewById<TextView>(R.id.score_latest)
-        val score_best = findViewById<TextView>(R.id.score_best)
-
-        table_menu_ele = arrayOf(button_start,button_top,text_latest_score,text_best_score,score_best,score_latest)
         //Gra
         playerImg = findViewById(R.id.player_img)
         val button1 = findViewById<Button>(R.id.but_move1)
@@ -74,45 +80,42 @@ class Minigame : AppCompatActivity() {
 
         table_game_ele = arrayOf(button1,button2,button3,button4,button5,scoreBox,healthBox,playerImg)
 
-        //Przygotowanie scrapów
+        val but_start = findViewById<TextView>(R.id.but_start)
 
-
-
-
-
+        table_menu_ele = arrayOf(but_start)
 
         //Działania przycisków
         button1.setOnClickListener {
-            playerImg.x = (screenWidth.toFloat()/6) - playerImg.width/2
+            playerImg.x = (screenWidth.toFloat() / 6) - playerImg.width / 2
             player_pos = 0
         }
 
         button2.setOnClickListener {
-            playerImg.x = (screenWidth.toFloat()/6 * 2) - playerImg.width/2
+            playerImg.x = (screenWidth.toFloat() / 6 * 2) - playerImg.width / 2
             player_pos = 1
         }
 
         button3.setOnClickListener {
-            playerImg.x = (screenWidth.toFloat()/6 * 3) - playerImg.width/2
+            playerImg.x = (screenWidth.toFloat() / 6 * 3) - playerImg.width / 2
             player_pos = 2
         }
 
         button4.setOnClickListener {
-            playerImg.x = (screenWidth.toFloat()/6 * 4) - playerImg.width/2
+            playerImg.x = (screenWidth.toFloat() / 6 * 4) - playerImg.width / 2
             player_pos = 3
         }
 
         button5.setOnClickListener {
-            playerImg.x = (screenWidth.toFloat()/6 * 5) - playerImg.width/2
+            playerImg.x = (screenWidth.toFloat() / 6 * 5) - playerImg.width / 2
             player_pos = 4
         }
 
-        button_start.setOnClickListener {
-            button1.x = screenWidth.toFloat()/6 - (button1.width/2)
-            button2.x = (screenWidth.toFloat()/6 * 2) - (button1.width/2)
-            button3.x = (screenWidth.toFloat()/6 * 3) - (button1.width/2)
-            button4.x = (screenWidth.toFloat()/6 * 4) - (button1.width/2)
-            button5.x = (screenWidth.toFloat()/6 * 5) - (button1.width/2)
+        but_start.setOnClickListener {
+            button1.x = screenWidth.toFloat() / 6 - (button1.width / 2)
+            button2.x = (screenWidth.toFloat() / 6 * 2) - (button1.width / 2)
+            button3.x = (screenWidth.toFloat() / 6 * 3) - (button1.width / 2)
+            button4.x = (screenWidth.toFloat() / 6 * 4) - (button1.width / 2)
+            button5.x = (screenWidth.toFloat() / 6 * 5) - (button1.width / 2)
 
             button1.height = screenHeight
             button2.height = screenHeight
@@ -130,16 +133,16 @@ class Minigame : AppCompatActivity() {
             //Tablica przechowująca możliwe miejsca pojawienia się scrapów
             val fixScrapPosX = 22
             scrap_respawn_table = arrayOf(
-                screenWidth.toFloat()/6 - fixScrapPosX,
-                (screenWidth.toFloat()/6 * 2) - fixScrapPosX,
-                (screenWidth.toFloat()/6 * 3) - fixScrapPosX,
-                (screenWidth.toFloat()/6 * 4) - fixScrapPosX,
-                (screenWidth.toFloat()/6 * 5) - fixScrapPosX
+                screenWidth.toFloat() / 6 - fixScrapPosX,
+                (screenWidth.toFloat() / 6 * 2) - fixScrapPosX,
+                (screenWidth.toFloat() / 6 * 3) - fixScrapPosX,
+                (screenWidth.toFloat() / 6 * 4) - fixScrapPosX,
+                (screenWidth.toFloat() / 6 * 5) - fixScrapPosX
             )
             player_pos = 2
 
             //Pozycja gracza po starcie gry
-            playerImg.x = (screenWidth.toFloat()/6 * 3) - (playerImg.width/2)
+            playerImg.x = (screenWidth.toFloat() / 6 * 3) - (playerImg.width / 2)
             playerImg.y = screenHeight * 0.63f
 
             scoreBox.y = screenHeight * 0.85f
@@ -151,13 +154,14 @@ class Minigame : AppCompatActivity() {
             actualscore = 0
             setScore(0)
             setHealth(hp)
-            showMenuElements(false)
+            playerName = intent.getStringExtra("PLAYER").toString()
             showGameElements(true)
+            showStart(false)
             gameContinue()
         }
 
-
     }
+
     //Pętla gry
     fun gameContinue() {
 
@@ -181,64 +185,61 @@ class Minigame : AppCompatActivity() {
             animation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
 
-                    if(hp <= 0) {
+                    if (hp <= 0) {
                         endAllAnimation()
                     }
 
-                    Log.d("x", newScrap.x.toString())
                     //sprawdzenie kolizji 1
                     var findcollision = false
 
                     handler.postDelayed({
-                        if (player_pos == newScrapPosition){
+                        if (player_pos == newScrapPosition) {
                             findcollision = true
                         }
-                    },2200)
+                    }, 2200)
                     //sprawdzenie kolizji 2
                     handler.postDelayed({
-                        if (player_pos == newScrapPosition){
+                        if (player_pos == newScrapPosition) {
                             findcollision = true
                         }
-                    },2250)
+                    }, 2250)
                     //sprawdzenie kolizji 3
                     handler.postDelayed({
-                        if (player_pos == newScrapPosition){
+                        if (player_pos == newScrapPosition) {
                             findcollision = true
                         }
                         //Aktualizacja score oraz hp
-                        if (findcollision){
+                        if (findcollision) {
                             newScrap.clearAnimation()
-                            actualscore+=50
+                            actualscore += 50
                             setScore(actualscore)
                             setHealth(hp)
-                            if (timer > 4000){
+                            if (timer > 4000) {
                                 timer -= 200
-                            }else  if (timer > 3000){
+                            } else if (timer > 3000) {
                                 timer -= 150
-                            }else if (timer > 2000){
+                            } else if (timer > 2000) {
                                 timer -= 120
-                            }else if (timer > 1500){
+                            } else if (timer > 1500) {
                                 timer -= 80
-                            }else if (timer > 1000){
+                            } else if (timer > 1000) {
                                 timer -= 50
-                            }else if (timer > 500){
+                            } else if (timer > 500) {
                                 timer -= 20
                             }
-                        }else{
-                            hp -=1
+                        } else {
+                            hp -= 1
                         }
                         scrapQueue.poll()
-                    },2290)
+                    }, 2290)
 
 
                 }
 
                 override fun onAnimationEnd(animation: Animation?) {
                     setHealth(hp)
-                    if(hp <= 0) {
+                    if (hp <= 0) {
                         endAllAnimation()
-                        showMenuElements(true)
-                        showGameElements(false)
                     }
                 }
 
@@ -246,14 +247,9 @@ class Minigame : AppCompatActivity() {
             })
             newScrap.startAnimation(animation)
             //Sprawdzenie końca gry
-            if(hp <= 0){
-                setLatestScore(actualscore)
-                val actualbestscore = findViewById<TextView>(R.id.score_best).text
-                if(actualscore > actualbestscore.toString().toInt()){
-                    setBestScore(actualscore)
-                }
-            }
-            else{
+            if (hp <= 0) {
+                endMinigame()
+            } else {
                 gameContinue()
             }
 
@@ -275,40 +271,52 @@ class Minigame : AppCompatActivity() {
         parentLayout.addView(newImageView)
         // Ustawienie layoutu dla nowego ImageView
         val layoutParams = newImageView.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.topToTop = originalImageView.id // ustawienie górnego krawędzi nowego ImageView na górną krawędź oryginalnego
-        layoutParams.startToStart = originalImageView.id // ustawienie lewej krawędzi nowego ImageView na lewą krawędź oryginalnego
+        layoutParams.topToTop =
+            originalImageView.id // ustawienie górnego krawędzi nowego ImageView na górną krawędź oryginalnego
+        layoutParams.startToStart =
+            originalImageView.id // ustawienie lewej krawędzi nowego ImageView na lewą krawędź oryginalnego
         layoutParams.marginStart =
             resources.getDimensionPixelSize(R.dimen.spacing) // dodanie marginesu na lewo
-        layoutParams.topMargin = resources.getDimensionPixelSize(R.dimen.spacing) // dodanie marginesu na górę
+        layoutParams.topMargin =
+            resources.getDimensionPixelSize(R.dimen.spacing) // dodanie marginesu na górę
         newImageView.layoutParams = layoutParams
 
         newImageView.visibility = View.INVISIBLE
 
         return newImageView;
     }
+
     //Funkcja ustawia atualny score
-    fun setScore(score: Int){
+    fun setScore(score: Int) {
         val scoreBox = findViewById<TextView>(R.id.text_score)
         scoreBox.setText("Score: " + score.toString())
     }
+
     //Funkcja ustawia aktualne hp
-    fun setHealth(hp: Int){
+    fun setHealth(hp: Int) {
         val healthBox = findViewById<TextView>(R.id.text_health)
         var healthnumber = ""
-        for (i in 1 .. hp){
+        for (i in 1..hp) {
             healthnumber += "❤️ "
         }
-        healthBox.setText("Score: " + healthnumber)
-    }
-    fun setLatestScore(score: Int){
-        val scorelatest = findViewById<TextView>(R.id.score_latest)
-        scorelatest.setText(score.toString())
-    }
-    fun setBestScore(score: Int){
-        val scorebest = findViewById<TextView>(R.id.score_best)
-        scorebest.setText(score.toString())
+        healthBox.setText("HP: " + healthnumber)
     }
 
+
+    fun endAllAnimation() {
+        for (ele in scrapQueue) {
+            ele.clearAnimation()
+        }
+        scrapQueue.clear()
+    }
+
+    fun endMinigame() {
+        val resultIntent = Intent()
+        resultIntent.putExtra("SCORE", actualscore)
+        resultIntent.putExtra("PLAYER", playerName)
+        setResult(Activity.RESULT_OK, resultIntent)
+        finish()
+    }
     fun showGameElements(show: Boolean){
         if(show){
             for (ele in table_game_ele){
@@ -321,7 +329,7 @@ class Minigame : AppCompatActivity() {
         }
     }
 
-    fun showMenuElements(show: Boolean){
+    fun showStart(show: Boolean){
         if(show){
             for (ele in table_menu_ele){
                 ele.visibility = View.VISIBLE
@@ -332,12 +340,5 @@ class Minigame : AppCompatActivity() {
             }
         }
     }
-
-    fun endAllAnimation(){
-        for (ele in scrapQueue){
-            ele.clearAnimation()
-        }
-        scrapQueue.clear()
-    }
-
 }
+

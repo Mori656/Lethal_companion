@@ -38,7 +38,7 @@ class Tips : AppCompatActivity() {
     }
     private fun fetchDataFromApi() {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://mikolajniewola.github.io/")
+            .baseUrl("https://api.jsonbin.io/v3/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -57,8 +57,8 @@ class Tips : AppCompatActivity() {
                         override fun onItemClick(position: Int) {
                             val intent = Intent(this@Tips, rv_item_disp::class.java)
                             intent.putExtra("type","Tips")
-                            intent.putExtra("name", data.Tips[position].name)
-                            intent.putExtra("desc", data.Tips[position].desc)
+                            intent.putExtra("name", data.record.Tips[position].name)
+                            intent.putExtra("desc", data.record.Tips[position].desc)
                             startActivity(intent)
                         }
                     })
