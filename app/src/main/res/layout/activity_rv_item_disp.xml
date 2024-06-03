@@ -5,28 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/Theme.S_Item"
-    tools:context=".rv_item_disp">
+
+    tools:context=".rv_item_disp"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="back"
-        android:text="back" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="421dp"
-        android:layout_height="6dp"
-        android:background="@color/green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07" />
+        android:text="back"
+        android:onClick="back" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,70 +27,57 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/name_disp"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="2dp"
-                android:gravity="center"
-                android:textSize="30sp" />
 
-            <ImageView
-                android:id="@+id/image_disp"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="2dp"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
 
-            <TextView
-                android:id="@+id/price_disp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="2dp"
-                android:textSize="22sp" />
+    <TextView
+        android:id="@+id/name_disp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="2dp"
-                android:gravity="left"
-                android:text="Description:"
-                android:textSize="30sp" />
+    <ImageView
+        android:id="@+id/image_disp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
-            <TextView
-                android:id="@+id/dangerLvl_disp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="2dp"
-                android:gravity="left"
-                android:text=""
-                android:textSize="22sp" />
+    <TextView
+        android:id="@+id/price_disp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Description"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/dangerLvl_disp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text=""
+        android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/sName_disp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="2dp"
-                android:gravity="left"
-                android:text=""
-                android:textSize="22sp" />
+        android:id="@+id/sName_disp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text=""
+        android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/desc_disp"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginTop="10dp"
-                android:textSize="18sp"
-                android:layout_marginRight="2dp" />
+            android:id="@+id/desc_disp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textSize="18sp" />
 
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

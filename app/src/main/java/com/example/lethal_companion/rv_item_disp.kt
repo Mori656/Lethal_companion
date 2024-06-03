@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 
 class rv_item_disp : AppCompatActivity() {
 
@@ -25,6 +24,7 @@ class rv_item_disp : AppCompatActivity() {
         sNameTextView = findViewById(R.id.sName_disp)
         priceTextView = findViewById(R.id.price_disp)
         imgImageView = findViewById(R.id.image_disp)
+
         val dispType = intent.getStringExtra("type")
         when (dispType) {
             "Monsters" -> dispMonsters()
