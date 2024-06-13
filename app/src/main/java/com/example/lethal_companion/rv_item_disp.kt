@@ -78,10 +78,10 @@ class rv_item_disp : AppCompatActivity() {
 
         val name = intent.getStringExtra("name")
         val desc = intent.getStringExtra("desc")
-//        val img = intent.getStringExtra("img")
-//        val resourceId = resources.getIdentifier(img, "drawable", packageName)
-//
-//        imgImageView.setImageResource(resourceId)
+        val img = intent.getStringExtra("img")
+        val resourceId = resources.getIdentifier("datachip", "drawable", packageName)
+
+        imgImageView.setImageResource(resourceId)
         nameTextView.text = name
         descTextView.text = desc
 
