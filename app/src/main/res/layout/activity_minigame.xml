@@ -212,7 +212,7 @@
 
     <View
         android:id="@+id/divider"
-        android:layout_width="418dp"
+        android:layout_width="0dp"
         android:layout_height="8dp"
         android:background="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"

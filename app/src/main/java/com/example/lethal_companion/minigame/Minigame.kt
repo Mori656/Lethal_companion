@@ -209,8 +209,6 @@ class Minigame : AppCompatActivity() {
                         }
                         //Aktualizacja score oraz hp
                         if (findcollision) {
-                            Log.d("newid", newScrap.id.toString())
-                            Log.d("newid", newScrap.id.toString())
                             if (newScrap.tag == "MONSTER"){
                                 hp -= 1
                             }else{

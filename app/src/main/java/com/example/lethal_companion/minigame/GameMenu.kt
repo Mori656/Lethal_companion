@@ -55,28 +55,14 @@ class GameMenu : AppCompatActivity() {
 
     fun setLatestScore(score: Int) {
 
-
-
-
         findnewbest = true
         val scorelatest = findViewById<TextView>(R.id.score_latest)
         scorelatest.setText(score.toString())
         var player = ElementGame(playerName, score)
 
-        for (i in 0..data.record.Game.size - 1) {
-            Log.d("Datatable", data.record.Game[i].name)
-        }
         var tmp: ElementGame = player
         var tmp2: ElementGame = player
-        for (i in 0..data.record.Game.size - 1) {
-            if (data.record.Game[i].name == player.name && data.record.Game[i].hiScore < player.hiScore) {
 
-                data.record.Game.removeAt(i)
-                break;
-            } else if (data.record.Game[i].name == player.name && data.record.Game[i].hiScore > player.hiScore) {
-                findnewbest = false
-            }
-        }
         if (findnewbest) {
             for (i in 0..data.record.Game.size - 1) {
 
@@ -93,11 +79,7 @@ class GameMenu : AppCompatActivity() {
 
             }
             data.record.Game.add(tmp)
-            for (i in 0..data.record.Game.size - 1) {
-                Log.d("Datatable", data.record.Game[i].name)
-            }
             while (data.record.Game.size > 100) {
-                Log.d("za duzo w tabeli", "usun ")
                 data.record.Game.removeLast()
             }
         }
@@ -115,7 +97,6 @@ class GameMenu : AppCompatActivity() {
     }
 
     private fun fetchDataFromApi() {
-        Log.d("Fetch", "działa1: ")
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.jsonbin.io/v3/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -129,7 +110,6 @@ class GameMenu : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
                 if (response.isSuccessful) {
                     data = response.body()!!
-                    Log.d("Fetch", "działa2: ")
                 } else {
                     Log.e("MainActivity", "Błąd: ${response.message()}")
                 }
@@ -143,7 +123,6 @@ class GameMenu : AppCompatActivity() {
     }
 
     private fun pushDataToApi(d: ResponseModel) {
-        Log.d("Push", "działa1: ")
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.jsonbin.io/v3/")
             .addConverterFactory(GsonConverterFactory.create())
